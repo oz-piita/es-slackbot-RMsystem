@@ -1,0 +1,5 @@
+slack.bot
+pandas
+gspread
+oauth2client
+pulp
