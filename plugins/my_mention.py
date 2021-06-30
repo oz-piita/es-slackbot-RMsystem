@@ -174,7 +174,7 @@ def solver(id):
                         tt += 1
                         if tt == 1:
                             msg_list.append("\n\n"+str(timezone_list[t-1])+"\n")
-                        msg_list.append(str(train_dic[j]))
+                        msg_list.append(str(train_dic[j])+"\n")
             msg_list.append("\n【被り】\n")
             for j in train_num_list:
                 for i in member_num_list:
