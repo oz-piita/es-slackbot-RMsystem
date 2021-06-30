@@ -175,7 +175,7 @@ def solver(id):
                         if tt == 1:
                             msg_list.append("\n\n"+str(timezone_list[t-1])+"\n")
                         msg_list.append(str(train_dic[j])+"\n")
-            msg_list.append("\n【被り】\n")
+            msg_list.append("【被り】\n")
             for j in train_num_list:
                 for i in member_num_list:
                     if pulp.value(x[i][j][t] ) != pulp.value(arr_N[j-1][i-1]*arr_A[t-1][i-1]*y[j][t]):
