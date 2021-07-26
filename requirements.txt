@@ -1,4 +1,4 @@
-slack.bot
+slackbot
 pandas
 gspread
 oauth2client
