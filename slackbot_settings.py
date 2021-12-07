@@ -1,3 +1,3 @@
-API_TOKEN = "xoxb-480462696306-2213833071410-CVLLeSvwaK0gcpnsWXBAsnZt"
+API_TOKEN = ""
 DEFAULT_REPLY = "あの…どうも…"
 PLUGINS = ['plugins']
