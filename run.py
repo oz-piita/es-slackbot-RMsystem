@@ -7,9 +7,11 @@ Updated on Sun Jun 27 14:06:00 2021 @author: taipi
 """
 from slackbot.bot import Bot
 
+
 def main():
     bot = Bot()
     bot.run()
+
 
 if __name__ == "__main__":
     print('start RM')

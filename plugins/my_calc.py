@@ -59,31 +59,25 @@ class Param:
 
         # **出力文**
         msg = str()
-        # msg = msg + (str(pulp.LpStatus[m.solve()])+"\n")
-        msg = msg + (self.datedata+"\n")
-        msg = msg + ("練習数は"+str(len(train_num_list))+"\n")
-        msg = msg + ("===========処理結果===========\n")
-        if pulp.LpStatus[m.solve()] == "Infeasible":    # Infesasibleは実行不可能の意。パラメタ調整のため抜ける
-            msg = msg + ("練習は入り切らなかった．被り人数許容上限="+str(self.overlap)+",同時練習許容上限="+str(self.place)+"\n")
-            msg = msg + ("K(被り人数許容上限)やW(同時練習許容上限)を大きくするか，練習するメニュー減らしてみてね")
-            return msg
-            # メニューに優先度を付けた場合の再帰処理
-            # min = min(self.need_train)
-            # for i in range(len(self.need_train)):
-            #     if self.need_train[i]== min:
-            #     self.need_train[i]=0
-            #     break
-            # cl.Param.need_train = self.need_train
-            # cl.Param.Calc()
+        # msg += (str(pulp.LpStatus[m.solve()])+"\n")
+        msg += (self.datedata+"\n")
+        msg += ("入った練習数は"+str(len(train_num_list))+"\n")
+        msg += ("===========処理結果===========\n")
+        infeasible = (pulp.LpStatus[m.solve()] == "Infeasible")
+        if infeasible:    # Infeasibleは実行不可能の意。パラメタ調整のため抜ける
+            msg += ("練習は入り切らなかった．被り人数許容上限="+str(self.overlap)+",同時練習許容上限="+str(self.place)+"\n")
+            msg += ("K(被り人数許容上限)やW(同時練習許容上限)を大きくするか，練習するメニュー減らしてみてね")
+            return msg,infeasible
+           
         
-        msg = msg + ("練習は入りきった！\n")
-        msg = msg + ("総練習人数は"+str(round(pulp.value(m.objective)))+"人"+"\n\n")
-        msg = msg + ("===========メニュー===========\n")
-        msg = msg + (self.datedata+"\n"+ "参加者\n"+self.participant+"\n")
+        # msg += ("練習は入りきった！\n")
+        msg += ("総練習人数は"+str(round(pulp.value(m.objective)))+"人"+"\n\n")
+        msg += ("===========メニュー===========\n")
+        msg += (self.datedata+"\n"+ "参加者\n"+self.participant+"\n")
         t1 = 0
         j1 = 0
         for t in class_num_list:
-            msg = msg + "\n"
+            msg += "\n"
             tt = 0
             for j in train_num_list:
                 if pulp.value(y[j][t]) == 1:
@@ -93,10 +87,10 @@ class Param:
                         j1 = j
                         tt += 1
                         if tt == 1:
-                            msg = msg + (self.class_list[t-1]+"\n")
-                        msg = msg + (self.lessons[j-1]+"\n")
+                            msg += (self.class_list[t-1]+"\n")
+                        msg += (self.lessons[j-1]+"\n")
         
-        msg = msg +"\n" + ("============詳細============\n")
+        msg +="\n" + ("============詳細============\n")
         t1 = 0
         j1 = 0
         for t in class_num_list:
@@ -109,19 +103,19 @@ class Param:
                         j1 = j
                         tt += 1
                         if tt == 1:
-                            msg = msg + (self.class_list[t-1]+"\n")
-                        msg = msg + (self.lessons[j-1]+"\n")
-            msg = msg + ("【被り】\n")
+                            msg += (self.class_list[t-1]+"\n")
+                        msg += (self.lessons[j-1]+"\n")
+            msg += ("【被り】\n")
             for j in train_num_list:
                 for i in member_num_list:
                     if pulp.value(x[i][j][t] ) != pulp.value(self.arr_N[j-1][i-1]*self.arr_A[t-1][i-1]*y[j][t]):
-                        msg = msg + (self.members[i-1]+"　")
-            msg = msg + ("\n")
-            msg = msg + ("【やることない】\n")
+                        msg += (self.members[i-1]+"　")
+            msg += ("\n")
+            msg += ("【やることない】\n")
             for i in member_num_list:
                 if self.arr_A[t-1][i-1] == 1:
                     if pulp.value(pulp.lpSum(x[i][j][t] for j in train_num_list)) == 0:
-                        msg = msg + (self.members[i-1]+"　")
-            msg = msg + ("\n\n")
+                        msg += (self.members[i-1]+"　")
+            msg += ("\n\n")
 
-        return msg
+        return msg,infeasible
