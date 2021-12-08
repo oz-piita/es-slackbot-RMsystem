@@ -9,7 +9,7 @@ date_ids = ["d1", "d2", "d3", "d4", "d5", "d6", "d7"]
 spreadsheet_key = '1Z5bLTtsBsRnhIKBMXxkk29UPWNBkxElp7HLe5omZ4fI'
 SCOPES = ['https://spreadsheets.google.com/feeds',
           'https://www.googleapis.com/auth/drive']
-SERVICE_ACCOUNT_FILE = 'plugins/es-spreadsheet-rmsystem-1d49147d5dc7.json'
+SERVICE_ACCOUNT_FILE = 'plugins/secretkey211408.json'
 credentials = ServiceAccountCredentials.from_json_keyfile_name(
     SERVICE_ACCOUNT_FILE, SCOPES)
 gs = gspread.authorize(credentials)
